@@ -50,7 +50,7 @@ func main() {
 		log.Fatalf("error parsing TOML: %s\n", err)
 	}
 
-	log.Printf("Target loot value: %s\n", looter.ReduceCoins(targetValue))
+	log.Printf("Target loot value: %s\n", targetValue)
 	items := g.Fill(targetValue)
 
 	totalValue := looter.CashValue{}

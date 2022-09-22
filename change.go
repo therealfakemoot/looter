@@ -20,6 +20,7 @@ func (cv CashValue) UnitValue() int {
 func (l CashValue) String() string {
 	return fmt.Sprintf("%dPP,%dGP,%dEP,%dSP,%dCP", l.PP, l.GP, l.EP, l.SP, l.CP)
 }
+
 func ReduceCoins(cv CashValue) CashValue {
 	reduced := CashValue{}
 	total := 0
