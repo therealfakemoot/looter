@@ -1,0 +1,48 @@
+[material]
+[material.brass]
+mult = 0.2
+weight = 30
+[material.bronze]
+mult = 0.55
+weight = 27
+[material.silver]
+mult = 0.85
+weight = 6
+[material.gold]
+mult = 1.0
+weight = 4
+[material.platinum]
+mult = 1.25
+weight = 2
+[material.mithril]
+mult = 2.0
+weight = 1
+
+[quality]
+[quality.derelict]
+mult = 0.6
+weight = 3
+
+[quality.average]
+mult = 1
+weight = 10
+
+[quality.fine]
+mult = 1.15
+weight = 6
+
+[quality.excellent]
+mult = 1.25
+weight = 2
+
+[items]
+mirror = 5
+scissors = 5
+tweezers = 2
+snuffbox = 5
+vase = 5
+knife = 10
+shield = 20
+monocle = 5
+spectacles = 5
+cufflinks = 5
