@@ -1,4 +1,4 @@
-package genloot
+package looter
 
 import (
 	"fmt"

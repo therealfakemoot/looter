@@ -7,7 +7,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/therealfakemoot/genloot"
+	"github.com/therealfakemoot/looter"
 )
 
 func main() {
@@ -32,7 +32,7 @@ func main() {
 	//rand.Seed(8675309)
 	rand.Seed(time.Now().UnixNano())
 
-	targetValue := genloot.CashValue{
+	targetValue := looter.CashValue{
 		PP: pp,
 		GP: gp,
 		EP: ep,
@@ -45,18 +45,18 @@ func main() {
 		log.Fatalf("error opening loot table file: %s\n", err)
 	}
 
-	g, err := genloot.NewLootGenerator(lootTableFile)
+	g, err := looter.NewLootGenerator(lootTableFile)
 	if err != nil {
 		log.Fatalf("error parsing TOML: %s\n", err)
 	}
 
-	log.Printf("Target loot value: %s\n", genloot.ReduceCoins(targetValue))
+	log.Printf("Target loot value: %s\n", looter.ReduceCoins(targetValue))
 	items := g.Fill(targetValue)
 
-	totalValue := genloot.CashValue{}
+	totalValue := looter.CashValue{}
 	for _, item := range items {
 		totalValue.CP += item.CashValue().UnitValue()
 	}
-	log.Printf("Total loot value: %s\n", genloot.ReduceCoins(totalValue))
+	log.Printf("Total loot value: %s\n", looter.ReduceCoins(totalValue))
 
 }

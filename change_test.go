@@ -1,4 +1,4 @@
-package genloot
+package looter
 
 import (
 	"reflect"
@@ -14,7 +14,7 @@ func Test_ReduceCoins(t *testing.T) {
 		EP: 1,
 	}
 
-	actual := reduceCoins(wallet)
+	actual := ReduceCoins(wallet)
 
 	if !reflect.DeepEqual(expected, actual) {
 		t.Logf("actual: %#+v\n", actual)
