@@ -7,7 +7,6 @@ import (
 	"os"
 	"time"
 
-	wr "github.com/mroth/weightedrand"
 	"github.com/therealfakemoot/genloot"
 )
 
@@ -33,56 +32,31 @@ func main() {
 	//rand.Seed(8675309)
 	rand.Seed(time.Now().UnixNano())
 
-	/*
-		targetValue := genloot.CashValue{
-			PP: pp,
-			GP: gp,
-			EP: ep,
-			SP: sp,
-			CP: cp,
-		}
-	*/
+	targetValue := genloot.CashValue{
+		PP: pp,
+		GP: gp,
+		EP: ep,
+		SP: sp,
+		CP: cp,
+	}
 
 	lootTableFile, err := os.Open(table)
 	if err != nil {
 		log.Fatalf("error opening loot table file: %s\n", err)
 	}
 
-	g := genloot.LootGenerator{}
-	err = g.LoadReader(lootTableFile)
+	g, err := genloot.NewLootGenerator(lootTableFile)
 	if err != nil {
 		log.Fatalf("error parsing TOML: %s\n", err)
 	}
 
-	weightedMaterials := make([]wr.Choice, 0)
-	for k, v := range g.Materials {
-		weightedMaterials = append(weightedMaterials, wr.Choice{
-			Item:   k,
-			Weight: uint(v.Weight),
-		})
-	}
-	materialChooser, err := wr.NewChooser(weightedMaterials...)
+	log.Printf("Target loot value: %s\n", genloot.ReduceCoins(targetValue))
+	items := g.Fill(targetValue)
 
-	weightedQualities := make([]wr.Choice, 0)
-	for k, v := range g.Quality {
-		weightedQualities = append(weightedQualities, wr.Choice{
-			Item:   k,
-			Weight: uint(v.Weight),
-		})
+	totalValue := genloot.CashValue{}
+	for _, item := range items {
+		totalValue.CP += item.CashValue().UnitValue()
 	}
-	qualityChooser, err := wr.NewChooser(weightedQualities...)
+	log.Printf("Total loot value: %s\n", genloot.ReduceCoins(totalValue))
 
-	i := genloot.Item{}
-	// pick an item type, then material, then quality
-	itemTypes := make([]string, 0)
-	for k := range g.Items {
-		itemTypes = append(itemTypes, k)
-	}
-
-	i.Table = g
-	i.Type = itemTypes[rand.Intn(len(itemTypes))]
-	i.BaseValue = g.Items[itemTypes[rand.Intn(len(itemTypes))]]
-	i.Material = materialChooser.Pick().(string)
-	i.Quality = qualityChooser.Pick().(string)
-	log.Println(i)
 }

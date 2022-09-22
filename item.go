@@ -20,7 +20,7 @@ func (i Item) CashValue() CashValue {
 	baseValueInCoppers *= i.Table.Quality[i.Quality].Mult
 
 	cv.CP = int(baseValueInCoppers)
-	return reduceCoins(cv)
+	return ReduceCoins(cv)
 }
 
 func (i Item) String() string {

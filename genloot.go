@@ -3,6 +3,7 @@ package genloot
 import (
 	"fmt"
 	"io"
+	"log"
 
 	"github.com/BurntSushi/toml"
 	wr "github.com/mroth/weightedrand"
@@ -58,7 +59,7 @@ func NewLootGenerator(r io.Reader) (LootGenerator, error) {
 
 	weightedTypes := make([]wr.Choice, 0)
 	for k := range lg.Items {
-		weightedQualities = append(weightedQualities, wr.Choice{
+		weightedTypes = append(weightedTypes, wr.Choice{
 			Item:   k,
 			Weight: 1,
 		})
@@ -88,6 +89,11 @@ func (lg LootGenerator) Fill(target CashValue) []Item {
 		i.BaseValue = lg.Items[i.Type]
 		i.Material = lg.MaterialChooser.Pick().(string)
 		i.Quality = lg.QualityChooser.Pick().(string)
+
+		lootTotal += i.CashValue().UnitValue()
+
+		log.Printf("Generated item: %s\n", i)
+		items = append(items, i)
 	}
 
 	return items
