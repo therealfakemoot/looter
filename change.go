@@ -1,9 +1,25 @@
-package main
+package genloot
 
 import (
-	"log"
+	"fmt"
 )
 
+type CashValue struct {
+	CP int
+	SP int
+	EP int
+	GP int
+	PP int
+}
+
+func (cv CashValue) UnitValue() int {
+
+	return cv.CP + (cv.SP * 10) + (cv.EP * 50) + (cv.GP * 100) + (cv.PP * 1000)
+}
+
+func (l CashValue) String() string {
+	return fmt.Sprintf("%dPP,%dGP,%dEP,%dSP,%dCP", l.PP, l.GP, l.EP, l.SP, l.CP)
+}
 func reduceCoins(cv CashValue) CashValue {
 	reduced := CashValue{}
 	total := 0
@@ -13,22 +29,17 @@ func reduceCoins(cv CashValue) CashValue {
 	total += cv.GP * 100
 	total += cv.PP * 1000
 
-	log.Printf("Raw Total: %d", total)
 	reduced.PP = total / 1000
 	total -= reduced.PP * 1000
-	log.Printf("Post-Platinum Total: %d", total)
 
 	reduced.GP = total / 100
 	total -= reduced.GP * 100
-	log.Printf("Post-Gold Total: %d", total)
 
 	reduced.EP = total / 50
 	total -= reduced.EP * 50
-	log.Printf("Post-Electrum Total: %d", total)
 
 	reduced.SP = total / 10
 	total -= reduced.SP * 10
-	log.Printf("Post-Silver Total: %d", total)
 
 	reduced.CP = total
 	return reduced

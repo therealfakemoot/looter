@@ -1,4 +1,4 @@
-module genloot
+module github.com/therealfakemoot/genloot
 
 go 1.18
 
